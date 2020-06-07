@@ -9,6 +9,8 @@ export function createLocation(path, state, key, currentLocation) {
   if (typeof path === 'string') {
     // Two-arg form: push(path, state)
     location = parsePath(path);
+    console.log('parsePath location', location);
+
     location.state = state;
   } else {
     // One-arg form: push(location)

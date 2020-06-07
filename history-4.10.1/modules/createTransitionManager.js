@@ -42,6 +42,7 @@ function createTransitionManager() {
         callback(result !== false);
       }
     } else {
+      console.log('callback(true);');
       callback(true);
     }
   }
@@ -59,19 +60,19 @@ function createTransitionManager() {
 
     return () => {
       isActive = false;
-      listeners = listeners.filter(item => item !== listener);
+      listeners = listeners.filter((item) => item !== listener);
     };
   }
 
   function notifyListeners(...args) {
-    listeners.forEach(listener => listener(...args));
+    listeners.forEach((listener) => listener(...args));
   }
 
   return {
     setPrompt,
     confirmTransitionTo,
     appendListener,
-    notifyListeners
+    notifyListeners,
   };
 }
 

@@ -112,6 +112,8 @@ function createHashHistory(props = {}) {
   }
 
   function handleHashChange() {
+    console.log('<<--------- handleHashChange');
+
     const path = getHashPath();
     const encodedPath = encodePath(path);
 
@@ -210,10 +212,14 @@ function createHashHistory(props = {}) {
       path,
       undefined,
       undefined,
+      // 地址改变之前的 location 信息
       history.location
     );
 
+    console.log('history.location', history.location);
+
     // http://localhost:5000/#/lxfriday/lxfriday/14?name=lx#friday => {pathname: "/lxfriday/lxfriday/14", search: "?name=lx", hash: "#friday", state: undefined}
+    // 地址即将要变成的 location 信息
     console.log('---> location', location);
 
     transitionManager.confirmTransitionTo(
@@ -225,6 +231,7 @@ function createHashHistory(props = {}) {
 
         const path = createPath(location);
         // encodedPath 编码之后的新 hash
+        // encodePath 加一个首 /
         const encodedPath = encodePath(basename + path);
         const hashChanged = getHashPath() !== encodedPath;
         console.log('getHashPath()', getHashPath()); // #/lxfriday/12 => /lxfriday/12
