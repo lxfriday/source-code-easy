@@ -105,6 +105,7 @@ function createBrowserHistory(props = {}) {
   function handlePopState(event) {
     // Ignore extraneous popstate events in WebKit.
     if (isExtraneousPopstateEvent(event)) return;
+    // getDOMLocation(event.state) 获取地址栏的 location 信息
     handlePop(getDOMLocation(event.state));
   }
 
@@ -136,6 +137,10 @@ function createBrowserHistory(props = {}) {
     }
   }
 
+  /**
+   * 撤销 pop
+   * @param {*} fromLocation 
+   */
   function revertPop(fromLocation) {
     const toLocation = history.location;
 
@@ -159,6 +164,9 @@ function createBrowserHistory(props = {}) {
     }
   }
 
+  /**
+   * 初始 location，从浏览器地址栏拿的 pathname search hash，从 window.history.state 拿的 state
+   */
   const initialLocation = getDOMLocation(getHistoryState());
   /**
    * location.key 组成的数组
@@ -355,11 +363,18 @@ function createBrowserHistory(props = {}) {
     }
   }
 
+  /**
+   * 防止 block 重复，防止重复添加监听器
+   */
   let isBlocked = false;
 
+  /**
+   * 阻塞地址更改，调用 transitionManager.confirmTransitionTo 时会依据 prompt 来决定是否阻塞地址更改
+   */
   function block(prompt = false) {
     const unblock = transitionManager.setPrompt(prompt);
 
+    // 防止多次添加 DOMListeners
     if (!isBlocked) {
       checkDOMListeners(1);
       isBlocked = true;
@@ -368,6 +383,7 @@ function createBrowserHistory(props = {}) {
     return () => {
       if (isBlocked) {
         isBlocked = false;
+        // 去除 DOMListeners
         checkDOMListeners(-1);
       }
 
@@ -375,6 +391,10 @@ function createBrowserHistory(props = {}) {
     };
   }
 
+  /**
+   * 监听 popstate
+   * @param {*} listener 
+   */
   function listen(listener) {
     const unlisten = transitionManager.appendListener(listener);
     checkDOMListeners(1);
