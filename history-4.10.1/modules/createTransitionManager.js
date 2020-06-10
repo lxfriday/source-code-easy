@@ -42,7 +42,6 @@ function createTransitionManager() {
         callback(result !== false);
       }
     } else {
-      console.log('callback(true);');
       callback(true);
     }
   }

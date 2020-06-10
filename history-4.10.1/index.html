@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>history</title>
+  </head>
+  <body>
+    <h1>history</h1>
+    <button id="go">go</button>
+    <script src="./umd/history.js"></script>
+    <script>
+      const goBtn = document.querySelector('#go');
+      const history = History.createHashHistory();
+
+      history.block('what');
+
+      goBtn.addEventListener('click', function () {
+        history.push('/demo');
+      });
+    </script>
+  </body>
+</html>
