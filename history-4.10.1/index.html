@@ -8,16 +8,32 @@
   <body>
     <h1>history</h1>
     <button id="go">go</button>
+    <button id="go2">go2</button>
     <script src="./umd/history.js"></script>
     <script>
-      const goBtn = document.querySelector('#go');
-      const history = History.createHashHistory();
+      (() => {
+        window.addEventListener('popstate', function (popStateEvent) {
+          console.log('popstate', popStateEvent);
+        })
+        const goBtn = document.querySelector('#go');
+        const go2Btn = document.querySelector('#go2');
+        const history = History.createBrowserHistory({basename: 'base'});
+        goBtn.addEventListener('click', function () {
+          history.push('/demo');
+        });
 
-      history.block('what');
-
-      goBtn.addEventListener('click', function () {
-        history.push('/demo');
-      });
+        go2Btn.addEventListener('click', function () {
+          history.push({
+            pathname: '/user/lxfriday',
+            search: 'time=20200610',
+            hash: '0800',
+            state: {
+              s1: 'this is s1',
+            },
+          });
+          console.log('history', history);
+        });
+      })();
     </script>
   </body>
 </html>

@@ -31,7 +31,10 @@ export function stripTrailingSlash(path) {
   return path.charAt(path.length - 1) === '/' ? path.slice(0, -1) : path;
 }
 
-// 解析字符串地址为一个对象
+/**
+ * 解析字符串地址为一个 locationObj
+ * @param {*} path 
+ */
 export function parsePath(path) {
   let pathname = path || '/';
   let search = '';
