@@ -268,12 +268,14 @@ function createHashHistory(props = {}) {
   }
 
   function replace(path, state) {
+    // replace 不要传 state，没效果
     warning(
       state === undefined,
       'Hash history cannot replace state; it is ignored'
     );
 
     const action = 'REPLACE';
+    // 创建 locationObj
     const location = createLocation(
       path,
       undefined,
@@ -287,11 +289,12 @@ function createHashHistory(props = {}) {
       getUserConfirmation,
       (ok) => {
         if (!ok) return;
-
+        // 依据 history 当前的 location 创建 path
         const path = createPath(location);
+        // basename + path
         const encodedPath = encodePath(basename + path);
+        // 比较浏览器的 hash 和拼好的 base+path，看是否有变更
         const hashChanged = getHashPath() !== encodedPath;
-
         if (hashChanged) {
           // We cannot tell if a hashchange was caused by a REPLACE, so we'd
           // rather setState here and ignore the hashchange. The caveat here
@@ -300,11 +303,11 @@ function createHashHistory(props = {}) {
           // location.replace 替换当前的页面地址
           replaceHashPath(encodedPath);
         }
-
+        // 找到路由栈中 history.location 的位置
         const prevIndex = allPaths.indexOf(createPath(history.location));
-
+        // 如果存在则，把当前位置的值变为replace的目标地址
         if (prevIndex !== -1) allPaths[prevIndex] = path;
-
+        // 更新state
         setState({ action, location });
       }
     );

@@ -4,7 +4,7 @@ import {
   stripTrailingSlash,
   hasBasename,
   stripBasename,
-  createPath
+  createPath,
 } from './PathUtils.js';
 import createTransitionManager from './createTransitionManager.js';
 import {
@@ -12,7 +12,7 @@ import {
   getConfirmation,
   supportsHistory,
   supportsPopStateOnHashChange,
-  isExtraneousPopstateEvent
+  isExtraneousPopstateEvent,
 } from './DOMUtils.js';
 import invariant from './invariant.js';
 import warning from './warning.js';
@@ -31,6 +31,13 @@ function getHistoryState() {
 }
 
 /**
+ * createBrowserHistory({
+ *   basename: '', // The base URL of the app (see below)
+ *   forceRefresh: false, // Set true to force full page refreshes
+ *   keyLength: 6, // The length of location.key
+ *   // A function to use to confirm navigation with the user (see below)
+ *   getUserConfirmation: (message, callback) => callback(window.confirm(message))
+ * });
  * Creates a history object that uses the HTML5 history API including
  * pushState, replaceState, and the popstate event.
  */
@@ -38,16 +45,19 @@ function createBrowserHistory(props = {}) {
   invariant(canUseDOM, 'Browser history needs a DOM');
 
   const globalHistory = window.history;
+  // 看是否支持 history api
   const canUseHistory = supportsHistory();
   const needsHashChangeListener = !supportsPopStateOnHashChange();
 
   const {
     forceRefresh = false,
     getUserConfirmation = getConfirmation,
-    keyLength = 6
+    keyLength = 6,
   } = props;
+  // 地址的前缀，后续变更都在这个基础之上
   const basename = props.basename
-    ? stripTrailingSlash(addLeadingSlash(props.basename))
+    ? // 去除尾部 /, 在首部添加 /
+      stripTrailingSlash(addLeadingSlash(props.basename))
     : '';
 
   function getDOMLocation(historyState) {
@@ -72,9 +82,7 @@ function createBrowserHistory(props = {}) {
   }
 
   function createKey() {
-    return Math.random()
-      .toString(36)
-      .substr(2, keyLength);
+    return Math.random().toString(36).substr(2, keyLength);
   }
 
   const transitionManager = createTransitionManager();
@@ -108,7 +116,7 @@ function createBrowserHistory(props = {}) {
         location,
         action,
         getUserConfirmation,
-        ok => {
+        (ok) => {
           if (ok) {
             setState({ action, location });
           } else {
@@ -169,7 +177,7 @@ function createBrowserHistory(props = {}) {
       location,
       action,
       getUserConfirmation,
-      ok => {
+      (ok) => {
         if (!ok) return;
 
         const href = createHref(location);
@@ -219,7 +227,7 @@ function createBrowserHistory(props = {}) {
       location,
       action,
       getUserConfirmation,
-      ok => {
+      (ok) => {
         if (!ok) return;
 
         const href = createHref(location);
@@ -320,7 +328,7 @@ function createBrowserHistory(props = {}) {
     goBack,
     goForward,
     block,
-    listen
+    listen,
   };
 
   return history;

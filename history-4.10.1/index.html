@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>history</title>
+  </head>
+  <body>
+    <h1>history</h1>
+    <p>
+      <button id="btn1">btn1</button>
+      <button id="btn2">btn2</button>
+    </p>
+    <script src="./umd/history.js"></script>
+    <script>
+      const btn1 = document.querySelector('#btn1');
+      const btn2 = document.querySelector('#btn2');
+      const history = History.createBrowserHistory({
+        basename: 'base',
+      });
+
+      btn1.addEventListener('click', function () {
+        history.push({
+          pathname: '/user/game',
+          search: 'name=lxfriday',
+          hash: 'hahaha',
+        });
+      });
+
+      btn2.addEventListener('click', function () {
+        history.push({
+          pathname: '/post/fly',
+          search: 'key=value',
+          hash: 'didadida',
+        });
+      });
+    </script>
+  </body>
+</html>
