@@ -3,7 +3,21 @@ import valueEqual from 'value-equal';
 
 import { parsePath } from './PathUtils.js';
 
-// 创建一个 location object
+/**
+ * {
+ *    pathname,
+ *    search,
+ *    hash,
+ *    key?,
+ *    state?,
+ * }
+ * 
+ * 创建一个 location object
+ * @param {*} path string | object
+ * @param {*} state 
+ * @param {*} key 
+ * @param {*} currentLocation 
+ */
 export function createLocation(path, state, key, currentLocation) {
   let location;
   if (typeof path === 'string') {

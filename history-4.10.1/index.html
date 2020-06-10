@@ -7,33 +7,33 @@
   </head>
   <body>
     <h1>history</h1>
-    <p>
-      <button id="btn1">btn1</button>
-      <button id="btn2">btn2</button>
-    </p>
+    <button id="go">go</button>
+    <button id="go2">go2</button>
     <script src="./umd/history.js"></script>
     <script>
-      const btn1 = document.querySelector('#btn1');
-      const btn2 = document.querySelector('#btn2');
-      const history = History.createBrowserHistory({
-        basename: 'base',
-      });
-
-      btn1.addEventListener('click', function () {
-        history.push({
-          pathname: '/user/game',
-          search: 'name=lxfriday',
-          hash: 'hahaha',
+      (() => {
+        window.addEventListener('popstate', function (popStateEvent) {
+          console.log('popstate', popStateEvent);
         });
-      });
-
-      btn2.addEventListener('click', function () {
-        history.push({
-          pathname: '/post/fly',
-          search: 'key=value',
-          hash: 'didadida',
+        const goBtn = document.querySelector('#go');
+        const go2Btn = document.querySelector('#go2');
+        const history = History.createBrowserHistory({ basename: 'base' });
+        goBtn.addEventListener('click', function () {
+          history.push('/demo');
         });
-      });
+
+        go2Btn.addEventListener('click', function () {
+          history.push({
+            pathname: '/user/lxfriday',
+            search: 'time=20200610',
+            hash: '0800',
+            state: {
+              s1: 'this is s1',
+            },
+          });
+          console.log('history', history);
+        });
+      })();
     </script>
   </body>
 </html>

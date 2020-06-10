@@ -112,22 +112,25 @@ function createHashHistory(props = {}) {
   }
 
   function handleHashChange() {
-    console.log('<<--------- handleHashChange');
-
+    // 获取当前浏览器的 hash
     const path = getHashPath();
+    // encodePath => 在首部添加 /
     const encodedPath = encodePath(path);
 
     if (path !== encodedPath) {
       // Ensure we always have a properly-encoded hash.
       replaceHashPath(encodedPath);
     } else {
-      // 最新的 location
+      // 最新的 location object
       const location = getDOMLocation();
       const prevLocation = history.location;
 
-      if (!forceNextPop && locationsAreEqual(prevLocation, location)) return; // A hashchange doesn't always == location change.
+      // A hashchange doesn't always == location change.
+      if (!forceNextPop && locationsAreEqual(prevLocation, location)) return;
 
-      if (ignorePath === createPath(location)) return; // Ignore this change; we already setState in push/replace.
+      // Ignore this change; we already setState in push/replace.
+      // push/replace 中都会把即将要变更的地址赋值给 ignorePath，表示要忽略此地址
+      if (ignorePath === createPath(location)) return;
 
       ignorePath = null;
 
@@ -344,6 +347,8 @@ function createHashHistory(props = {}) {
 
   let isBlocked = false;
 
+  // 路由切换时，阻塞跳转
+  // prompt(location, action) prompt 可以为字符串或者函数，函数的话执行的结果会给 getUserConfirmation 的第一个参数
   function block(prompt = false) {
     const unblock = transitionManager.setPrompt(prompt);
 
