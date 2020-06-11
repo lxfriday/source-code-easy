@@ -292,7 +292,7 @@ function createHashHistory(props = {}) {
       getUserConfirmation,
       (ok) => {
         if (!ok) return;
-        // 依据 history 当前的 location 创建 path
+        // 依据 location 创建 path
         const path = createPath(location);
         // basename + path
         const encodedPath = encodePath(basename + path);
@@ -368,7 +368,9 @@ function createHashHistory(props = {}) {
   }
 
   function listen(listener) {
+    // 把 listener 添加到监听器数组中
     const unlisten = transitionManager.appendListener(listener);
+    // 监听 hashchange
     checkDOMListeners(1);
 
     return () => {

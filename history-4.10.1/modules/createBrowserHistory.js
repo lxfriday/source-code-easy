@@ -378,6 +378,7 @@ function createBrowserHistory(props = {}) {
 
   /**
    * 阻塞地址更改，调用 transitionManager.confirmTransitionTo 时会依据 prompt 来决定是否阻塞地址更改
+   * history.block('hello')
    */
   function block(prompt = false) {
     const unblock = transitionManager.setPrompt(prompt);
