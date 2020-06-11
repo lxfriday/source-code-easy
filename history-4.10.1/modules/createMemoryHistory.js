@@ -3,17 +3,25 @@ import { createLocation } from './LocationUtils.js';
 import createTransitionManager from './createTransitionManager.js';
 import warning from './warning.js';
 
+/**
+ * min(max(n, lowerBound), upperBound)
+ * @param {*} n 
+ * @param {*} lowerBound 
+ * @param {*} upperBound 
+ */
 function clamp(n, lowerBound, upperBound) {
   return Math.min(Math.max(n, lowerBound), upperBound);
 }
 
 /**
- * Creates a history object that stores locations in memory.
+ * 内存history，用于ssr或者rn。Creates a history object that stores locations in memory.
  */
 function createMemoryHistory(props = {}) {
   const {
     getUserConfirmation,
+    // 初始路由栈
     initialEntries = ['/'],
+    // 初始路由位置
     initialIndex = 0,
     keyLength = 6
   } = props;
@@ -26,16 +34,23 @@ function createMemoryHistory(props = {}) {
     transitionManager.notifyListeners(history.location, history.action);
   }
 
+  /**
+   * 创建一个长度为 keyLength 的 36 位随机字符串
+   */
   function createKey() {
     return Math.random()
       .toString(36)
       .substr(2, keyLength);
   }
 
+  // initialIndex => 0, initialEntries.length - 1 => 0
   const index = clamp(initialIndex, 0, initialEntries.length - 1);
+  // 把 initialEntries 转换成 locationObj
   const entries = initialEntries.map(entry =>
     typeof entry === 'string'
+      // 如果是字符串，则创建 key
       ? createLocation(entry, undefined, createKey())
+      // 如果是对象，则使用自带的 key
       : createLocation(entry, undefined, entry.key || createKey())
   );
 
@@ -44,6 +59,7 @@ function createMemoryHistory(props = {}) {
   const createHref = createPath;
 
   function push(path, state) {
+    // 如果 path 是对象，pathObj 中包含 state 而且第二个参数 state 也不为空，则第二个参数 state 会被忽略
     warning(
       !(
         typeof path === 'object' &&
@@ -55,6 +71,7 @@ function createMemoryHistory(props = {}) {
     );
 
     const action = 'PUSH';
+    // 由 path 创建 locationObj
     const location = createLocation(path, state, createKey(), history.location);
 
     transitionManager.confirmTransitionTo(
@@ -64,9 +81,11 @@ function createMemoryHistory(props = {}) {
       ok => {
         if (!ok) return;
 
+        // history 中存储的 index 属性
         const prevIndex = history.index;
         const nextIndex = prevIndex + 1;
 
+        // 从 history.entries 复制一份
         const nextEntries = history.entries.slice(0);
         if (nextEntries.length > nextIndex) {
           nextEntries.splice(
