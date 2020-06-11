@@ -1,14 +1,24 @@
+/**
+ * 是否支持 DOM，现代浏览器都支持
+ */
 export const canUseDOM = !!(
   typeof window !== 'undefined' &&
   window.document &&
   window.document.createElement
 );
 
+/**
+ * 默认的 block 逻辑
+ * @param {*} message 
+ * @param {*} callback 
+ */
 export function getConfirmation(message, callback) {
   callback(window.confirm(message)); // eslint-disable-line no-alert
 }
 
 /**
+ * 现代浏览器都会返回 true
+ * 
  * Returns true if the HTML5 history API is supported. Taken from Modernizr.
  *
  * https://github.com/Modernizr/Modernizr/blob/master/LICENSE
@@ -30,6 +40,7 @@ export function supportsHistory() {
 }
 
 /**
+ * 大多数浏览器返回 true.
  * Returns true if browser fires popstate on hash change.
  * IE10 and IE11 do not.
  */

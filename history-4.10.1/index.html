@@ -17,19 +17,14 @@
         });
         const goBtn = document.querySelector('#go');
         const go2Btn = document.querySelector('#go2');
-        const history = History.createBrowserHistory({ basename: 'base' });
+        const history = History.createBrowserHistory();
         goBtn.addEventListener('click', function () {
-          history.push('/demo');
+          history.push('/demo/hello');
         });
 
         go2Btn.addEventListener('click', function () {
           history.push({
-            pathname: '/user/lxfriday',
-            search: 'time=20200610',
-            hash: '0800',
-            state: {
-              s1: 'this is s1',
-            },
+            pathname: '/sougou',
           });
           console.log('history', history);
         });
