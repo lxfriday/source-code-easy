@@ -1,5 +1,0 @@
-## hashHistory
-
-
-
-## browserHistory
