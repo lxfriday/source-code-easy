@@ -1,9 +1,11 @@
+// rollup 插件 ---------------------------
 import babel from 'rollup-plugin-babel';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 import { uglify } from 'rollup-plugin-uglify';
+// rollup 插件 ---------------------------
 
 import pkg from './package.json';
 
@@ -21,8 +23,8 @@ const cjs = [
     external,
     plugins: [
       babel({ exclude: /node_modules/ }),
-      replace({ 'process.env.NODE_ENV': JSON.stringify('development') })
-    ]
+      replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+    ],
   },
   {
     input,
@@ -31,9 +33,9 @@ const cjs = [
     plugins: [
       babel({ exclude: /node_modules/ }),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-      uglify()
-    ]
-  }
+      uglify(),
+    ],
+  },
 ];
 
 const esm = [
@@ -45,11 +47,11 @@ const esm = [
       babel({
         exclude: /node_modules/,
         runtimeHelpers: true,
-        plugins: [['@babel/transform-runtime', { useESModules: true }]]
+        plugins: [['@babel/transform-runtime', { useESModules: true }]],
       }),
-      sizeSnapshot()
-    ]
-  }
+      sizeSnapshot(),
+    ],
+  },
 ];
 
 const umd = [
@@ -60,13 +62,13 @@ const umd = [
       babel({
         exclude: /node_modules/,
         runtimeHelpers: true,
-        plugins: [['@babel/transform-runtime', { useESModules: true }]]
+        plugins: [['@babel/transform-runtime', { useESModules: true }]],
       }),
       nodeResolve(),
       commonjs({ include: /node_modules/ }),
       replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
-      sizeSnapshot()
-    ]
+      sizeSnapshot(),
+    ],
   },
   {
     input,
@@ -75,15 +77,15 @@ const umd = [
       babel({
         exclude: /node_modules/,
         runtimeHelpers: true,
-        plugins: [['@babel/transform-runtime', { useESModules: true }]]
+        plugins: [['@babel/transform-runtime', { useESModules: true }]],
       }),
       nodeResolve(),
       commonjs({ include: /node_modules/ }),
       replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
       sizeSnapshot(),
-      uglify()
-    ]
-  }
+      uglify(),
+    ],
+  },
 ];
 
 let config;
