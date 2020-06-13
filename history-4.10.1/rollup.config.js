@@ -1,10 +1,17 @@
 // rollup 插件 ---------------------------
+// js 代码解析
 import babel from 'rollup-plugin-babel';
+// https://www.npmjs.com/package/@rollup/plugin-node-resolve
+// 定位 module
 import nodeResolve from 'rollup-plugin-node-resolve';
 // https://github.com/rollup/plugins/tree/master/packages/commonjs
-//  转换 CommonJS modules 代码 为 ES6 代码
+// 转换 CommonJS modules 代码 为 ES6 代码
 import commonjs from 'rollup-plugin-commonjs';
+// https://www.npmjs.com/package/@rollup/plugin-replace
+// 替换指定字符串
 import replace from 'rollup-plugin-replace';
+// https://github.com/TrySound/rollup-plugin-size-snapshot
+// 对打包出来的文件生成包体积报告，生成 .size-snapshot.json
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
 // 文件压缩 xx.min.js
 import { uglify } from 'rollup-plugin-uglify';
