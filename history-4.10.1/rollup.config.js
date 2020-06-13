@@ -1,15 +1,19 @@
 // rollup 插件 ---------------------------
 import babel from 'rollup-plugin-babel';
 import nodeResolve from 'rollup-plugin-node-resolve';
+// https://github.com/rollup/plugins/tree/master/packages/commonjs
+//  转换 CommonJS modules 代码 为 ES6 代码
 import commonjs from 'rollup-plugin-commonjs';
 import replace from 'rollup-plugin-replace';
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot';
+// 文件压缩 xx.min.js
 import { uglify } from 'rollup-plugin-uglify';
 // rollup 插件 ---------------------------
 
 import pkg from './package.json';
-
+// 入口文件
 const input = './modules/index.js';
+// umd 包全局命名：window.History
 const globalName = 'History';
 
 function external(id) {
