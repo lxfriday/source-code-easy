@@ -44,7 +44,7 @@
     "loader-utils": "1.1.0",
     "markdown-it": "^7.0.0",
     "postcss-loader": "^2.1.5",
-    "prismjs": "^1.8.4",
+    "prismjs": "^1.24.0",
     "prop-types": "^15.6.1",
     "query-string": "^5.1.0",
     "raw-loader": "^0.5.1",
