@@ -42,7 +42,7 @@
     "isomorphic-fetch": "^2.2.1",
     "jsxstyle": "^2.1.1",
     "loader-utils": "1.1.0",
-    "markdown-it": "^7.0.0",
+    "markdown-it": "^12.3.2",
     "postcss-loader": "^2.1.5",
     "prismjs": "^1.8.4",
     "prop-types": "^15.6.1",
